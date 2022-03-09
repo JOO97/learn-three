@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    height: 100%;
+}
+#container{
+    background: #1f1b22;
+}
+.container {
+    width: 1448px;
+    height: 750px;
+    /*background: #213543;*/
+}
