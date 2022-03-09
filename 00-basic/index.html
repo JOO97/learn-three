@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper"></div>
+    <script src="./lib/three.js"></script>
+    <script src="./lib/controls.js"></script>
+    <!-- <script src="./lib/CSS3DRenderer.js"></script> -->
+    <script>
+      //创建场景
+      const scene = new THREE.Scene()
+      //创建相机
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        2000
+      )
+      // 创建渲染器
+      const renderer = new THREE.WebGLRenderer()
+      //设置渲染物体阴影
+      console.log(renderer)
+      renderer.shadowMapEnabled = true
+      renderer.setSize(window.innerWidth, window.innerHeight)
+      renderer.setClearColor(new THREE.Color(0xeeeeee))
+
+      //显示三维坐标
+      // 红色代表 X 轴. 绿色代表 Y 轴. 蓝色代表 Z 轴.
+      var axis = new THREE.AxisHelper(100)
+      scene.add(axis)
+
+      //创建平面几何体
+      const planeGeometry = new THREE.PlaneGeometry(200, 100) //长，宽
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc })
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.rotation.x = -0.5 * Math.PI
+      plane.position.x = 0
+      plane.position.y = 0
+      plane.position.z = 0
+      //接收阴影
+      plane.receiveShadow = true
+      //平面几何添加到场景
+      scene.add(plane)
+
+      //创建立体几何
+      const geometry = new THREE.BoxGeometry(20, 20, 20)
+      // const material = new THREE.MeshBasicMaterial({ color: 0x3f7b9d })
+      const material = new THREE.MeshLambertMaterial({ color: 0x3f7b9d })
+      // Mesh（网格）。 网格包含一个几何体以及作用在此几何体上的材质
+      const cube = new THREE.Mesh(geometry, material)
+      cube.position.y = 20
+      //对象是否渲染到阴影贴图中
+      cube.castShadow = true
+      // 调用scene.add()的时候，物体将会被添加到(0,0,0)坐标
+      scene.add(cube)
+
+      //创建球形
+      const sphereGeometry = new THREE.SphereGeometry(5, 32, 16)
+      const material2 = new THREE.MeshLambertMaterial({ color: 0xffff00 })
+      const sphere = new THREE.Mesh(sphereGeometry, material2)
+      sphere.position.x = 30
+      sphere.position.y = 5
+      sphere.castShadow = true
+      scene.add(sphere)
+
+      //创建聚光灯
+      const spotlight = new THREE.SpotLight(0xffffff)
+      spotlight.position.set(280, 180, -100)
+      spotlight.castShadow = true
+      //设置阴影精度
+      spotlight.angle = Math.PI / 10
+      spotlight.shadow.penumbra = 0.05
+      spotlight.shadow.mapSize.width = 1024
+      spotlight.shadow.mapSize.height = 1024
+      scene.add(spotlight)
+
+      //定位相机， 指向场景的中心
+      camera.position.x = 100
+      camera.position.y = 100
+      camera.position.z = 100
+      camera.lookAt(scene.position)
+
+      //将渲染器添加到html中
+      document.getElementById('wrapper').appendChild(renderer.domElement)
+      //动画 60次/秒
+      function animate() {
+        //请求动画帧
+        requestAnimationFrame(animate)
+        cube.rotateX(0.01)
+        cube.rotateY(0.01)
+        cube.rotateZ(0.01)
+        // cube.rotation.x += 0.01
+        // cube.rotation.y += 0.01
+        // cube.rotation.z += 0.01
+        renderer.render(scene, camera)
+      }
+      animate()
+
+      //创建controls对象
+      const controls = new THREE.OrbitControls(camera, renderer.domElement)
+      controls.addEventListener('change', () => {
+        renderer.render(scene, camera)
+      })
+    </script>
+  </body>
+</html>
