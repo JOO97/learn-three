@@ -10,7 +10,147 @@
         margin: 0;
         padding: 0;
       }
+      canvas {
+        background-image: url('./assets/imgs/starts.jpg');
+        background-size: cover;
+      }
+      span {
+        color: #fff;
+      }
     </style>
   </head>
-  <body></body>
+  <body>
+    <script type="module">
+      import * as THREE from './libs/build/three.module.js'
+      import { OrbitControls } from './libs/jsm/controls/OrbitControls.js'
+
+      import { CSS2DRenderer, CSS2DObject } from './libs/jsm/renderers/CSS2DRenderer.js'
+      let camera, scene, renderer, renderer2D
+      let moon, earth
+      const MOON_RADIUS = 0.27
+      const EARTH_RADIUS = 2.5
+      //跟踪时间
+      let clock = new THREE.Clock()
+      //纹理加载器
+      let textureLoader = new THREE.TextureLoader()
+      function init() {
+        //1实例化相机
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000)
+        camera.position.set(10, 5, 20)
+
+        //2实例化场景
+        scene = new THREE.Scene()
+
+        //3实例化灯光
+        const light = new THREE.SpotLight(0xffffff)
+        //设置灯光位置
+        light.position.set(0, 0, 10)
+        light.intensity = 2
+        light.castShadow = true //投射阴影
+        scene.add(light)
+        //添加环境光
+        const eLight = new THREE.AmbientLight(0xffffff)
+        eLight.intensity = 0.3
+        scene.add(eLight)
+
+        //4创建月球
+        //创建球体
+        const moonGeo = new THREE.SphereGeometry(MOON_RADIUS, 32, 16)
+        //创建材质，Phong具有镜面高光的光泽表面的材质
+        const moonMate = new THREE.MeshPhongMaterial({
+          //自定义纹路
+          map: textureLoader.load('./assets/textures/planets/moon_1024.jpg')
+        })
+        //合并球体和材质
+        moon = new THREE.Mesh(moonGeo, moonMate)
+        moon.receiveShadow = true
+        moon.castShadow = true
+        //加入场景
+        scene.add(moon)
+
+        //添加moon的label
+        //创建dom元素
+        const moonLabelEl = document.createElement('span')
+        moonLabelEl.textContent = 'moon'
+        const moonLabel = new CSS2DObject(moonLabelEl)
+        moonLabel.position.set(0, MOON_RADIUS + 0.5, 0)
+        moon.add(moonLabel)
+
+        //创建地球
+        const earthGeo = new THREE.SphereGeometry(EARTH_RADIUS)
+        const earthMate = new THREE.MeshPhongMaterial({
+          shininess: 30,
+          map: textureLoader.load('./assets/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('./assets/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('./assets/textures/planets/earth_normal_2048.jpg')
+        })
+        earth = new THREE.Mesh(earthGeo, earthMate)
+        // earth.position.set(0, 0, 0)
+        earth.receiveShadow = true //接收阴影
+        earth.castShadow = true
+        scene.add(earth)
+
+        //添加earth的label
+        const earthLabelEl = document.createElement('span')
+        earthLabelEl.textContent = 'earth'
+        const earthLabel = new CSS2DObject(earthLabelEl)
+        earthLabel.position.set(0, EARTH_RADIUS + 0.5, 0)
+        earth.add(earthLabel)
+
+        //5实例化渲染器
+        renderer = new THREE.WebGLRenderer({
+          alpha: true //设置透明，否则背景图片看不见
+        })
+        //设置像素比
+        renderer.setPixelRatio(window.devicePixelRatio)
+        //设置大小
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        //渲染阴影
+        renderer.shadowMap.enabled = true
+        document.body.appendChild(renderer.domElement)
+
+        //6实例化2d渲染器
+        renderer2D = new CSS2DRenderer()
+        renderer2D.setSize(window.innerWidth, window.innerHeight)
+        renderer2D.domElement.style.position = 'absolute'
+        renderer2D.domElement.style.top = '0px'
+        document.body.appendChild(renderer2D.domElement)
+
+        const axis = new THREE.AxesHelper(100)
+        scene.add(axis)
+        //6控制器
+        new OrbitControls(camera, renderer.domElement)
+        new OrbitControls(camera, renderer2D.domElement)
+      }
+      //动画
+      let oldTime = 0
+      function animate() {
+        //经过的时间
+        const elapsed = clock.getElapsedTime()
+        //修改moon的位置
+        moon.position.set(Math.sin(elapsed) * 5, 0, Math.cos(elapsed) * 5)
+        //地球自转
+        //创建一个三维向量
+        // const axis = new THREE.Vector3(0, 1, 0)
+        // earth.rotateOnAxis(axis, ((elapsed - oldTime) * Math.PI) / 10)
+        earth.rotateY(elapsed - oldTime)
+        oldTime = elapsed
+        renderer.render(scene, camera)
+        renderer2D.render(scene, camera)
+        requestAnimationFrame(animate)
+      }
+
+      window.addEventListener('resize', () => {
+        //设置相机视角的长宽比
+        camera.aspect = window.innerWidth / window.innerHeight
+        //更新摄像机投影矩阵。在任何参数被改变以后必须被调用。
+        camera.updateProjectionMatrix()
+        //设置renderer的size
+        renderer.setSize(window.innerWidth, window.innerHeight)
+      })
+
+      init()
+      animate()
+    </script>
+  </body>
 </html>
