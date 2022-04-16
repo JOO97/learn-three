@@ -53,7 +53,9 @@ renderer渲染
 
 ## DEMO
 
-### 1全景图流程
+### 1全景图
+
+`CSS3DRenderer`
 
 1. init
    1. init camera
@@ -67,3 +69,40 @@ renderer渲染
    2. 将角度转换为弧度函数
    3. camera look at target
    4. renderer.render
+
+
+
+
+
+### 2地月环绕
+
+OribitControls
+
+CSS2DRenderer
+
+CSS2DObject
+
+new THREE.clock() 时钟
+
+new THREE.TextureLoader() 纹理加载器
+
+
+
+### init
+
+相机：实例化、位置
+
+场景：实例化
+
+光源：实例化、位置、亮度、阴影、添加到场景中
+
+月球：实例化球体、设置材质、合并球体和材质为Mesh、添加到场景中
+
+渲染器：实例化、设置像素比、大小、渲染阴影=true、渲染器添加到body中
+
+标签渲染器
+
+控制器：实例化
+
+动画
+
