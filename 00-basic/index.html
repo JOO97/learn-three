@@ -17,8 +17,13 @@
     <div id="wrapper"></div>
     <script src="./lib/three.js"></script>
     <script src="./lib/controls.js"></script>
+    <script src="https://www.wjceo.com/lib/js/libs/stats.min.js"></script>
     <!-- <script src="./lib/CSS3DRenderer.js"></script> -->
     <script>
+      //性能监听插件
+      const stats = new Stats()
+      document.body.appendChild(stats.dom)
+
       //创建场景
       const scene = new THREE.Scene()
       //创建相机
@@ -104,6 +109,7 @@
         // cube.rotation.x += 0.01
         // cube.rotation.y += 0.01
         // cube.rotation.z += 0.01
+        stats.update() //更新性能检测
         renderer.render(scene, camera)
       }
       animate()

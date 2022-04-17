@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500" style="border: 1px solid #000"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('webgl')
+      //指定canvas背景颜色
+      ctx.clearColor(1.0, 1.0, 1.0, 1.0)
+      //调用缓存中的值填充图形
+      ctx.clear(ctx.COLOR_BUFFER_BIT)
+      //着色器
+      //顶点着色器
+      const VERTEX_SOURCE =
+        'void main() {' +
+        '   gl_Position = vec4(0.0, 0.0, 0.0, 1.0);' + // 设置顶点坐标
+        '   gl_PointSize = 10.0;' + // 设置顶点的大小
+        '' +
+        '}'
+      //片段着色器
+      const FRAGMENT_SOURCE =
+        'void main(){' +
+        '   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);' + //设置顶点颜色
+        '}'
+      initShader(ctx, VERTEX_SOURCE, FRAGMENT_SOURCE)
+      ctx.drawArrays(ctx.POINTS, 0, 1)
+
+      // 初始化着色器方法
+      function initShader(gl, vertexShaderSource, fragmentShaderSource) {
+        // 创建顶点着色器对象
+        var vertexShader = gl.createShader(gl.VERTEX_SHADER)
+
+        // 创建片元着色器对象
+        var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
+        // 引入着色器代码
+        gl.shaderSource(vertexShader, vertexShaderSource)
+        gl.shaderSource(fragmentShader, fragmentShaderSource)
+
+        // 编译顶点和片元着色器代码
+        gl.compileShader(vertexShader)
+        gl.compileShader(fragmentShader)
+
+        // 创建程序对象
+        var program = gl.createProgram()
+
+        // 附着附着着色器到程序
+        gl.attachShader(program, vertexShader)
+        gl.attachShader(program, fragmentShader)
+
+        // 链接程序
+        gl.linkProgram(program)
+
+        // 使用程序
+        gl.useProgram(program)
+
+        // 返回 program 对象
+        return program
+      }
+    </script>
+  </body>
+</html>

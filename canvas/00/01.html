@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+
+      let width = canvas.width,
+        height = canvas.height
+      if (window.devicePixelRatio) {
+        canvas.height = height * window.devicePixelRatio
+        canvas.width = width * window.devicePixelRatio
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      }
+
+      ctx.fillStyle = '#eee'
+      ctx.fillRect(0, 0, 500, 500)
+      /* 绘制直线 */
+      //1定位开始点
+      ctx.moveTo(120, 30)
+      //2拖动并结束点，路径保存在内存中
+      ctx.lineTo(200, 30)
+      //3描点
+      ctx.stroke()
+
+      /* 绘制三角形 */
+      ctx.moveTo(200, 160)
+      ctx.lineTo(220, 190)
+      ctx.lineTo(300, 200)
+      ctx.closePath()
+      ctx.strokeStyle = '#000'
+      ctx.stroke()
+
+      ctx.beginPath()
+      /* 绘制三角形不同颜色 */
+      //1
+      ctx.moveTo(200, 60)
+      ctx.lineTo(200, 90)
+      ctx.strokeStyle = '#000'
+      ctx.stroke()
+      ctx.beginPath() //新建一条路径或重置当前的路径，切断和上一个图形路径的联系
+      //2
+      ctx.moveTo(200, 90)
+      ctx.lineTo(170, 60)
+      ctx.strokeStyle = 'red'
+      ctx.stroke()
+      ctx.beginPath()
+      //3
+      ctx.moveTo(170, 60)
+      ctx.lineTo(200, 60)
+      ctx.strokeStyle = 'pink'
+      // ctx.closePath() //关闭路径
+      ctx.lineWidth = 1
+      ctx.stroke()
+    </script>
+  </body>
+</html>

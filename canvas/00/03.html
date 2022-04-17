@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>刮刮卡</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500" style="border: 1px solid #000"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+      const textArr = ['未中奖', '一等奖', '二等奖']
+      //随机生成一个中奖信息
+      const msg = textArr[Math.floor(Math.random() * textArr.length)]
+      ctx.font = '48px serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillStyle = 'red'
+      ctx.fillText(msg, canvas.width / 2, canvas.height / 2)
+      //中奖信息作为画布的背景图片
+      const img = canvas.toDataURL('image/png', 1)
+      canvas.style.background = `url(${img})`
+      //覆盖层
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.fillStyle = '#eee'
+      ctx.fillRect(0, 0, 500, 500)
+      //鼠标划擦
+      //鼠标移动时，不断绘制正方形
+      let isDraw = false
+      canvas.addEventListener('mousedown', (e) => {
+        isDraw = true
+        //将绘制后的目标区域设置为透明
+        ctx.globalCompositeOperation = 'destination-out'
+      })
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!isDraw) return
+        const x = e.clientX
+        const y = e.clientY
+        ctx.fillStyle = '#000'
+        ctx.fillRect(x + 2, y + 2, 20, 20)
+      })
+      canvas.addEventListener('mouseup', (e) => {
+        isDraw = false
+      })
+    </script>
+  </body>
+</html>
