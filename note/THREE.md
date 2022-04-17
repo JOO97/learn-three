@@ -101,23 +101,17 @@ function updatePosition() {
 
 ## Object3D
 
-threejs中大部分对象的基类
+threejs 中大部分对象的基类
 
 ```javascript
 const object3D = new THREE.Object3D()
 ```
 
-属性： position rotation scale quaternion(4元数-用于表示旋转) castShadow(是否接收阴影) children等
-
-
+属性： position rotation scale quaternion(4 元数-用于表示旋转) castShadow(是否接收阴影) children 等
 
 # 数学库
 
 ## Color
-
-
-
-
 
 # Sence
 
@@ -194,15 +188,13 @@ mesh.rotation.y += 0.02
 
 ## 相机
 
-### camera基类
+### camera 基类
 
 继承于 THREE.Object3D
 
 ![image-20220313225621652](https://tva1.sinaimg.cn/large/e6c9d24ely1h08nbwrr1mj20bt08pgm9.jpg)
 
 ![image-20220313224539844](https://tva1.sinaimg.cn/large/e6c9d24ely1h08n0tzpivj20co0dumxo.jpg)
-
-
 
 ### OrthographicCamera 正交相机
 
@@ -233,34 +225,24 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 
 ![image-20220313230212073](https://tva1.sinaimg.cn/large/e6c9d24ely1h08nhzmoflj20bo0e0gmk.jpg)
 
-### -StereoCamera立体相机
+### -StereoCamera 立体相机
 
-双透视摄像机（立体相机）常被用于创建[3D Anaglyph](https://en.wikipedia.org/wiki/Anaglyph_3D)（3D立体影像） 或者[Parallax Barrier](https://en.wikipedia.org/wiki/parallax_barrier)（视差屏障）
+双透视摄像机（立体相机）常被用于创建[3D Anaglyph](https://en.wikipedia.org/wiki/Anaglyph_3D)（3D 立体影像） 或者[Parallax Barrier](https://en.wikipedia.org/wiki/parallax_barrier)（视差屏障）
 
 ### -CubeCamera 立方相机
 
-创建6个渲染到WebGLCubeRenderTarget的摄像机
+创建 6 个渲染到 WebGLCubeRenderTarget 的摄像机
 
 ### -ArrayCamera 摄像机阵列
 
-ArrayCamera 用于更加高效地使用一组已经预定义的摄像机来渲染一个场景。这将能够更好地提升VR场景的渲染性能。
+ArrayCamera 用于更加高效地使用一组已经预定义的摄像机来渲染一个场景。这将能够更好地提升 VR 场景的渲染性能。
 一个 ArrayCamera 的实例中总是包含着一组子摄像机，应当为每一个子摄像机定义**viewport**（视口）这个属性，这一属性决定了由该子摄像机所渲染的视口区域的大小
-
-
-
-
 
 ## controls
 
 #### OrbitControls（轨道控制器）
 
 可以使得相机围绕目标进行轨道运动
-
-
-
-
-
-
 
 # Geometry 几何体
 
@@ -281,18 +263,16 @@ const vertices = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0])
 geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
 ```
 
-
-
 ### BoxGeometry 立方体
 
 BoxGeometry(width : Float, height : Float, depth : Float, widthSegments : Integer, heightSegments : Integer, depthSegments : Integer)
 
-width — X轴上面的宽度，默认值为1。
-height — Y轴上面的高度，默认值为1。
-depth — Z轴上面的深度，默认值为1。
-widthSegments — （可选）宽度的分段数，默认值是1。
-heightSegments — （可选）高度的分段数，默认值是1。
-depthSegments — （可选）深度的分段数，默认值是1。
+width — X 轴上面的宽度，默认值为 1。
+height — Y 轴上面的高度，默认值为 1。
+depth — Z 轴上面的深度，默认值为 1。
+widthSegments — （可选）宽度的分段数，默认值是 1。
+heightSegments — （可选）高度的分段数，默认值是 1。
+depthSegments — （可选）深度的分段数，默认值是 1。
 
 ```
 THREE.BoxGeometry(w,h,d,wSegments,hSegments,zSegments)
@@ -323,73 +303,55 @@ THREE.BoxGeometry(w,h,d,wSegments,hSegments,zSegments)
 
 ### Text
 
-
-
 # Texture
 
 ### 涉及概念
 
 1. mipmap 多级渐远纹理技术
 
-     优点：当物体远离时，无需高精度纹理展示时，则替换低精度纹理，降低了显存带宽，减少了渲染。
+   优点：当物体远离时，无需高精度纹理展示时，则替换低精度纹理，降低了显存带宽，减少了渲染。
 
-     缺点：为了适配多场景（远近个不同的场景）提前生成八张精度不同的纹理，使用一定的空间用用于存储这些多级渐远纹理，通      常会多占用33%的内存空间，典型的利用空间换取时间的办法
+   缺点：为了适配多场景（远近个不同的场景）提前生成八张精度不同的纹理，使用一定的空间用用于存储这些多级渐远纹理，通 常会多占用 33%的内存空间，典型的利用空间换取时间的办法
 
 2. uv
 
-   uv坐标： UV坐标是指所有的图象文件都是二维的一个平面。水平方向是U，垂直方向是V，通过这个平面的，二维的UV坐标系。我们可以定位图象上的任意一个象素。
+   uv 坐标： UV 坐标是指所有的图象文件都是二维的一个平面。水平方向是 U，垂直方向是 V，通过这个平面的，二维的 UV 坐标系。我们可以定位图象上的任意一个象素。
 
    uv unwrapping：
 
 3. PBR-Physically-Based Rendering（基于物理的渲染）
 
-
-
-### 加载texture
+### 加载 texture
 
 1.Image
 
 2.Textloader
 
 ```javascript
-  const texture = new THREE.TextureLoader().load('/assets/textures/arkit.png')
-  texture.center.x = 0.5 //旋转中心点 默认值为(0,0)
-  texture.center.y = 0.5
-  texture.offset.x = 0.5
-  texture.offset.y = 0.5
-  texture.rotation = Math.PI * 2
-  texture.wrapS = THREE.RepeatWrapping //水平对于uv的v
-  texture.wrapT = THREE.RepeatWrapping //垂直对应uv的u
-  texture.repeat.set(1, 1)
+const texture = new THREE.TextureLoader().load('/assets/textures/arkit.png')
+texture.center.x = 0.5 //旋转中心点 默认值为(0,0)
+texture.center.y = 0.5
+texture.offset.x = 0.5
+texture.offset.y = 0.5
+texture.rotation = Math.PI * 2
+texture.wrapS = THREE.RepeatWrapping //水平对于uv的v
+texture.wrapT = THREE.RepeatWrapping //垂直对应uv的u
+texture.repeat.set(1, 1)
 
-  texture.generateMipmaps = false //不生成mipmap
-  texture.minFilter = THREE.NearestFilter //当覆盖小于1像素，贴图的采用方式（远处）
-  texture.magFilter = THREE.NearestFilter //当覆盖大于1像素，贴图的采用方式（近处）
+texture.generateMipmaps = false //不生成mipmap
+texture.minFilter = THREE.NearestFilter //当覆盖小于1像素，贴图的采用方式（远处）
+texture.magFilter = THREE.NearestFilter //当覆盖大于1像素，贴图的采用方式（近处）
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1)
-  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture })
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.position.set(2, 0, 0)
-  scene.add(mesh)
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture })
+const mesh = new THREE.Mesh(geometry, material)
+mesh.position.set(2, 0, 0)
+scene.add(mesh)
 ```
 
 LoadingManager 加载管理器
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Material 材质
-
-
 
 ![image-20220313224841515](https://tva1.sinaimg.cn/large/e6c9d24ely1h08n3xnowuj20bk01rq2w.jpg)
 
@@ -433,17 +395,7 @@ scene.add(lineMesh)
 
 ![image-20220313225246707](https://tva1.sinaimg.cn/large/e6c9d24ely1h08n86s40sj20bk02qmx6.jpg)
 
-
-
-
-
-
-
 # render
-
-
-
-
 
 # 光照
 
@@ -480,10 +432,6 @@ scene.add(lineMesh)
 6. 室外光源
 
 ![image-20220313225551494](https://tva1.sinaimg.cn/large/e6c9d24ely1h08nbdnt2oj20c607amxl.jpg)
-
-
-
-
 
 # Points 粒子
 
@@ -544,10 +492,6 @@ scene.add(lineMesh)
 ### 3 请求动画帧
 
 ### 4 鼠标控制三维场景
-
-
-
-
 
 # DEMO
 
