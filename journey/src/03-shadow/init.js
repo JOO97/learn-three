@@ -1,7 +1,3 @@
-/**
- * @description geometry bufferGeometry dat.gui
- */
-
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
@@ -13,27 +9,15 @@ import * as dat from 'dat.gui' //调试工具
  * dat.gui
  */
 const gui = new dat.GUI({ closed: false, width: 400 })
-//处理颜色
-const parameters = {
-  color: 0x666600,
-  spin: () => {
-    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + 10 })
-  }
-}
-gui.addColor(parameters, 'color').onChange(() => {
-  //threejs中color是一个类, 通过set()来修改
-  console.log(material.color)
-  material.color.set(parameters.color)
-})
-
-gui.add(parameters, 'spin')
 
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }
 
-//scene
+/**
+ * scene
+ */
 const scene = new THREE.Scene()
 const canvas = document.getElementById('canvas')
 
@@ -51,30 +35,15 @@ gui.addColor(light, 'ambient').onChange(() => {
 scene.add(ambientLight)
 
 /**
- * geometry
+ * camera
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-
-const material = new THREE.MeshBasicMaterial({ color: parameters.color, wireframe: false })
-const mesh = new THREE.Mesh(geometry, material)
-mesh.position.set(4, 0, 0)
-scene.add(mesh)
-
-/**
- * gui
- */
-gui.add(mesh.position, 'y', -3, 2, 0.01) //min max step
-gui.add(mesh.position, 'x').min(-3).max(2).step(0.01).name('x of mesh')
-gui.add(mesh, 'visible').name('visible')
-gui.add(material, 'wireframe').name('wireframe')
-
-//camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 1000)
 camera.position.set(5, 2, 4)
-camera.lookAt(mesh.position)
 scene.add(camera)
 
-//controls
+/**
+ * controls
+ */
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
@@ -108,17 +77,6 @@ const renderer = new THREE.WebGLRenderer({
   canvas
 })
 
-scene.add(new THREE.AxesHelper(100))
-
 renderer.setSize(sizes.width, sizes.height)
 
-let clock = new THREE.Clock()
-function animate() {
-  const elapsedTime = clock.getElapsedTime()
-
-  controls.update()
-  renderer.render(scene, camera)
-  window.requestAnimationFrame(animate)
-}
-
-animate()
+export { gui, renderer, camera, scene, controls }

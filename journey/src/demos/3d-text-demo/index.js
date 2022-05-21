@@ -9,14 +9,19 @@ import gsap from 'gsap' //动画
 
 import * as dat from 'dat.gui' //调试工具
 
+import runTextures from './textures'
+import runFonts from './Text'
+console.log('THREE', THREE)
+
 /**
  * dat.gui
  */
-const gui = new dat.GUI({ closed: false, width: 400 })
+const gui = new dat.GUI({ closed: true, width: 400 })
 //处理颜色
 const parameters = {
   color: 0x666600,
   spin: () => {
+    console.log('spin')
     gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + 10 })
   }
 }
@@ -38,27 +43,28 @@ const scene = new THREE.Scene()
 const canvas = document.getElementById('canvas')
 
 /**
- * ambientLight
- */
-const light = {
-  ambient: 0x404040
-}
-const ambientLight = new THREE.AmbientLight(light.color, 0.5)
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
-gui.addColor(light, 'ambient').onChange(() => {
-  ambientLight.color.set(light.ambient)
-})
-scene.add(ambientLight)
-
-/**
  * geometry
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 
+//bufferGeometry
+//1 创建BufferGeometry 2 创建顶点数组, 存入顶点数据 3 设置position属性
+// const geometry = new THREE.BufferGeometry()
+// const vertices = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0])
+// geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+
+// const count = 50
+// const geometry = new THREE.BufferGeometry()
+// const vertices = new Float32Array(count * 3 * 3) //每个三角有3个点，每个点有三个坐标xyz
+// for (let index = 0; index < count * 3 * 3; index++) {
+//   vertices[index] = (Math.random() - 0.5) * 4
+// }
+// geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+
 const material = new THREE.MeshBasicMaterial({ color: parameters.color, wireframe: false })
 const mesh = new THREE.Mesh(geometry, material)
 mesh.position.set(4, 0, 0)
-scene.add(mesh)
+// scene.add(mesh)
 
 /**
  * gui
@@ -70,7 +76,7 @@ gui.add(material, 'wireframe').name('wireframe')
 
 //camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 1000)
-camera.position.set(5, 2, 4)
+camera.position.set(5, 5, 5)
 camera.lookAt(mesh.position)
 scene.add(camera)
 
@@ -112,9 +118,12 @@ scene.add(new THREE.AxesHelper(100))
 
 renderer.setSize(sizes.width, sizes.height)
 
+// renderer.setClearColor(new THREE.Color(0xeeeeee))
+
 let clock = new THREE.Clock()
 function animate() {
   const elapsedTime = clock.getElapsedTime()
+  // mesh.position.x = Math.sin(elapsedTime)
 
   controls.update()
   renderer.render(scene, camera)
@@ -122,3 +131,6 @@ function animate() {
 }
 
 animate()
+
+// runTextures({ THREE, scene })
+runFonts({ THREE, scene })

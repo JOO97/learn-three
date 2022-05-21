@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "webpack-dev-server"
+    "serve": "webpack-dev-server",
+    "build": "webpack",
+    "deploy": "vercel --prod"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
   "dependencies": {
     "dat.gui": "^0.7.9",
     "gsap": "^3.10.3",
+    "html-webpack-plugin": "^5.5.0",
     "three": "^0.139.2"
   }
 }

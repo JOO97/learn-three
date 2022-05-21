@@ -303,6 +303,45 @@ THREE.BoxGeometry(w,h,d,wSegments,hSegments,zSegments)
 
 ### Text
 
+fontLoader()
+
+TextGeometry
+
+```javascript
+  
+  const fontLoader = new FontLoader()
+
+  fontLoader.load(
+    '/assets/fonts/gentilis_regular.typeface.json',
+    (font) => {
+      const textGeometry = new TextGeometry('MOON START', {
+        font,
+        size: 0.4,
+        height: 0.1,
+        curveSegments: 0.1,
+        bevelEnabled: true,
+        bevelThickness: 0.3,
+        bevelSize: 0.02,
+        bevelOffset: 0,
+        bevelSegment: 5
+      })
+      const mesh = new THREE.Mesh(textGeometry, material)
+      //居中
+      textGeometry.center()
+        scene.add(dount)
+      }
+    },
+    (xhr) => {
+      // console.log('on progress', xhr)
+    },
+    (err) => {
+      console.log('err')
+    }
+  )
+```
+
+
+
 # Texture
 
 ### 涉及概念
