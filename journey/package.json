@@ -21,6 +21,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
+    "cannon": "^0.6.2",
     "dat.gui": "^0.7.9",
     "gsap": "^3.10.3",
     "html-webpack-plugin": "^5.5.0",
