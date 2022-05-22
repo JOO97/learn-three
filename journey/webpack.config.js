@@ -12,7 +12,7 @@ module.exports = {
     publicPath: ''
   },
   devServer: {
-    port: 3001
+    port: 3002
     //指定服务器自动打包哪个文件夹下的文件
     // contentBase: './dist'
     //默认publicPath:'/'，输出文件，即bundle.js文件存于服务器的根目录中，此处也可更改存储路径
