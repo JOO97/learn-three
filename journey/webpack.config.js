@@ -18,6 +18,14 @@ module.exports = {
     //默认publicPath:'/'，输出文件，即bundle.js文件存于服务器的根目录中，此处也可更改存储路径
     // publicPath: '/'
   },
+  module: {
+    rules: [
+      {
+        test: /\.(glsl|vs}fs|vert|frag)$/,
+        loader: 'raw-loader'
+      }
+    ]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
