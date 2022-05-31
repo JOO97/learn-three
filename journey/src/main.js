@@ -1,1 +1,1 @@
-require('./active/index')
+require('./demos/simple-scene')

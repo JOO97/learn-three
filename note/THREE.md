@@ -4,6 +4,18 @@
 
 babylon.js 3d 游戏引擎
 
+# 三维概念
+
+#### pitch/heading/roll
+
+- pitch是围绕X轴旋转，也叫做俯仰角，
+- heading(yaw)是围绕Y轴旋转，也叫偏航角，(平行于z轴，就是水平旋转的，其他同理)
+- roll是围绕Z轴旋转，也叫翻滚角，
+
+
+
+
+
 # 基础
 
 1. camera 相机-视角
