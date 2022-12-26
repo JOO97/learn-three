@@ -12,7 +12,7 @@ const scene = new THREE.Scene()
 const canvas = document.getElementById('canvas')
 //geometry
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xffee66 })
+const material = new THREE.MeshBasicMaterial({ color: 0x395f9b })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 

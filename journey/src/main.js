@@ -1,1 +1,1 @@
-require('./demos/simple-scene')
+require('./00-basic')
