@@ -1,1 +1,1 @@
-require('./00-basic')
+require('./demos/3d-machine-room')

@@ -26,6 +26,7 @@
     "dat.gui": "^0.7.9",
     "gsap": "^3.10.3",
     "html-webpack-plugin": "^5.5.0",
-    "three": "^0.139.2"
+    "three": "^0.139.2",
+    "threebsp": "^1.0.4"
   }
 }
