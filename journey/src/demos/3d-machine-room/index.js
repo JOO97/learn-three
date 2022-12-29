@@ -111,7 +111,7 @@ const createFloor = () => {
   )
   materials[5] = material
   const mesh = new Mesh(geometry, materials)
-  mesh.position.set(0, 0, 0)
+  mesh.position.set(0, -10, 0)
   mesh.rotation.set(Math.PI / 2, 0, 0)
   return mesh
 }
@@ -122,7 +122,7 @@ const params = {
   planeConstant: 0
 }
 
-renderer.localClippingEnabled = true //允许剪裁
+// renderer.localClippingEnabled = true //允许剪裁
 // renderer.clippingPlanes = clipPlanes
 
 // let clipPlanes = [
@@ -168,55 +168,55 @@ const createWalls = () => {
         size.h / 2,
         index === 0 ? size.w / 2 : index === 2 ? -size.w / 2 : 0
       )
-      if (!idx) {
-        mesh.rotateY(Math.PI / 2)
-      }
-      if (index === 2 || index === 3) {
-        mesh.rotateX(Math.PI)
-      }
-      if (index === 1) {
+      if (!idx) mesh.rotateY(Math.PI / 2)
+      if (index === 2 || index === 3) mesh.rotateX(Math.PI)
+      if (index === 0) {
         door = createDoor(
-          w * 0.45 * 0.5,
-          330 * 0.5,
-          10,
+          400,
+          200,
+          100,
           mesh.position.x,
-          mesh.position.y + 0.1,
-          mesh.position.z
+          mesh.position.y + 10,
+          mesh.position.z,
+          materials
         )
       }
-      if (door) {
-        // const material2 = new THREE.MeshPhongMaterial({
-        //   color: 0x9cb2d1,
-        //   specular: 0x9cb2d1,
-        //   shininess: 30,
-        //   transparent: true,
-        //   opacity: 1
-        // })
-        const resultBSP = new ThreeBSP(mesh).subtract(new ThreeBSP(door))
-        mesh = resultBSP.toMesh(Array(16).fill(materials[0]))
 
-        mesh.geometry.computeVertexNormals() // 更新面和顶点的数据
-        // mesh.material.needsUpdate = true
-        mesh.geometry.buffersNeedUpdate = true
-        mesh.geometry.uvsNeedUpdate = true
-      }
-      walls.push(mesh)
+      if (door) {
+        // scene.add(door)
+        // walls.push(mesh)
+
+        const material2 = new THREE.MeshPhongMaterial({
+          color: 0x9cb2d1,
+          specular: 0x9cb2d1,
+          shininess: 30,
+          transparent: true,
+          opacity: 1
+        })
+
+        let resultBSP = new ThreeBSP(mesh)
+        resultBSP = resultBSP.subtract(new ThreeBSP(door))
+        const result = resultBSP.toMesh(material2, true, true)
+        result.position.set(...mesh.position)
+        result.geometry.computeVertexNormals() // 更新面和顶点的数据
+        result.material.needsUpdate = true
+        result.geometry.buffersNeedUpdate = true
+        result.geometry.uvsNeedUpdate = true
+        console.log(result)
+
+        walls.push(result)
+        door = null
+      } else walls.push(mesh)
     })
 
   return walls
 }
 
 // 创建门
-const createDoor = (w, h, d, x, y, z) => {
-  const door = new Mesh(
-    new BoxGeometry(w, h, d, 1, 1, 1),
-    new MeshBasicMaterial({
-      color: new Color('#000')
-    })
-  )
+const createDoor = (w, h, d, x, y, z, material) => {
+  const door = new Mesh(new BoxGeometry(w, h, d, 1, 1, 1), material)
   door.position.set(x, y, z)
-  door.rotateY(Math.PI / 2)
-
+  // door.rotateY(Math.PI / 2)
   return door
 }
 
