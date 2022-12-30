@@ -12,6 +12,7 @@ module.exports = {
     publicPath: ''
   },
   devServer: {
+    sourceMap: true,
     port: 3002
     //指定服务器自动打包哪个文件夹下的文件
     // contentBase: './dist'
