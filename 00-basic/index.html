@@ -47,13 +47,13 @@
       scene.add(axis)
 
       //创建平面几何体
-      const planeGeometry = new THREE.PlaneGeometry(200, 100) //长，宽
+      const planeGeometry = new THREE.PlaneGeometry(10, 10) //长，宽
       const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc })
       const plane = new THREE.Mesh(planeGeometry, planeMaterial)
       plane.rotation.x = -0.5 * Math.PI
-      plane.position.x = 0
+      plane.position.x = 20
       plane.position.y = 0
-      plane.position.z = 0
+      plane.position.z = 10
       //接收阴影
       plane.receiveShadow = true
       //平面几何添加到场景
@@ -103,12 +103,12 @@
       function animate() {
         //请求动画帧
         requestAnimationFrame(animate)
-        cube.rotateX(0.01)
-        cube.rotateY(0.01)
-        cube.rotateZ(0.01)
-        // cube.rotation.x += 0.01
-        // cube.rotation.y += 0.01
-        // cube.rotation.z += 0.01
+        // cube.rotateX(0.01)
+        // cube.rotateY(0.01)
+        // cube.rotateZ(0.01)
+        // plane.rotation.x += 0.01
+        // plane.rotation.y += 0.01
+        plane.rotation.z += 0.01
         stats.update() //更新性能检测
         renderer.render(scene, camera)
       }
